@@ -1,0 +1,28 @@
+.movie-item {
+  position: relative;
+}
+
+.movie-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.movie-item:hover .movie-title {
+  opacity: 1;
+}
+
+.movie-item img {
+  transition: transform 0.3s ease;
+}
+
+.movie-item:hover img {
+  transform: scale(1.1);
+}
