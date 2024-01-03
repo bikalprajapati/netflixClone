@@ -39,7 +39,7 @@ function Movies(props) {
       <div className="row">
         <h1 className="text-white">{genreName}</h1>
       </div>
-      <Carousel className="w-72 ">
+      <Carousel className="w-60 ">
         {movieData.map(
           (movie, index) =>
             // Display 5 movies at a time

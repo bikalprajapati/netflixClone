@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import Home from "../Pages/Home";
 import Poster from "../Pages/Poster";
 import { FaSearch } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { FaBell } from "react-icons/fa";
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
 
 function Header() {
+  const [open, setOpen] = useState(false);
+
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
   return (
     <>
       <header>
-        <div className="container-fluid mx-auto py-3  bg-black">
+        <div>
+          <Modal open={open} onClose={onCloseModal} center>
+            <h2>Simple centered modal</h2>
+          </Modal>
+        </div>
+        <div className="fixed-top container-fluid mx-auto py-3  bg-black">
           <div className="row">
-            <div className="col-md-2 ">
+            <div className="col-md-2 mt-2">
               <img
                 style={{ width: "100px" }}
                 className=""
@@ -20,8 +31,8 @@ function Header() {
                 alt=""
               />
             </div>
-            <div className="col-md-8">
-              <ul className="d-flex gap-5 text-white list-unstyled">
+            <div className="col-md-8 d-none d-lg-block mt-2">
+              <ul className="d-flex gap-5 text-white list-unstyled ">
                 <li className="">
                   <Link to="/" className="text-decoration-none text-white">
                     Home
@@ -57,7 +68,7 @@ function Header() {
                 </li>
               </ul>
             </div>
-            <div className="col-md-2 text-white d-flex list-unstyled justify-content-between">
+            <div className="col-md-2 text-white d-flex list-unstyled justify-content-between mt-2">
               <li>
                 <FaSearch style={{ fontSize: "25px", marginBottom: "10px" }} />
               </li>
@@ -66,8 +77,26 @@ function Header() {
                 <FaBell style={{ fontSize: "25px", marginBottom: "10px" }} />
               </li>
               <li>
-                <CgProfile style={{ fontSize: "25px", marginBottom: "10px" }} />
+                <Link
+                  to="/profile"
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  <CgProfile
+                    style={{ fontSize: "25px", marginBottom: "10px" }}
+                  />
+                </Link>
+                {/* <button onClick={handleOpen}> */}
+
+                {/* </button> */}
               </li>
+              {/* <li>
+                {" "}
+                <button onClick={onOpenModal} className="text-primary">
+                  Open modal
+                </button>
+              </li> */}
             </div>
           </div>
         </div>
