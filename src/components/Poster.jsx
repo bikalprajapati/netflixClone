@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import "../App.css";
 import { FaPlay } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 
-function Poster() {
+import "../App.css";
+
+const Poster = () => {
   let [data, setData] = useState([]);
   useEffect(() => {
     fetch(
@@ -19,7 +20,10 @@ function Poster() {
         <div
           style={{
             height: "90vh",
-            backgroundImage: `url(https://image.tmdb.org/t/p/w500${data.backdrop_path})`,
+            // backgroundImage: `url(https://image.tmdb.org/t/p/w500${data.backdrop_path})`,
+            backgroundImage: data.backdrop_path
+              ? `url(https://image.tmdb.org/t/p/w500/${data.backdrop_path})`
+              : "none",
             backgroundSize: "cover",
           }}
         >
@@ -63,6 +67,6 @@ function Poster() {
       </div>
     </div>
   );
-}
+};
 
 export default Poster;

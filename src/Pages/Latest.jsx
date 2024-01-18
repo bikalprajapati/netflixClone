@@ -1,55 +1,48 @@
-import React, { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
+import React, { useEffect, useState } from "react";
+
+import "../Movies.css";
+import { latestMovies } from "../apiHelper/TMDB_API";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import "../Movies.css";
-
-const Movies = (props) => {
-  const [movieData, setMovieData] = useState([]);
-  const [genreName, setGenreName] = useState("");
+const Latest = ({ setActivePage }) => {
+  const [topRatedData, setTopRatedData] = useState([]);
 
   useEffect(() => {
-    const genreMap = {
-      28: "Action",
-      12: "Adventure",
-      16: "Animation",
-      35: "Comedy",
-      80: "Crime",
-      99: "Documentary",
-      18: "Drama",
-      10751: "Family",
-      14: "Fantasy",
-      36: "History",
-      27: "Horror",
+    setActivePage("latest");
+  }, [setActivePage]);
+
+  console.log(topRatedData);
+
+  useEffect(() => {
+    const fetchTopRatedData = async () => {
+      try {
+        const result = await latestMovies();
+        setTopRatedData(result);
+      } catch (error) {
+        console.log("latestError", error);
+      }
     };
+    fetchTopRatedData();
+  }, []);
 
-    setGenreName(genreMap[props.tt] || "");
-
-    if (props.tt) {
-      fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=679e8a0539ccc1652ee3c5d8791dec03&with_genres=${props.tt}`
-      )
-        .then((res) => res.json())
-        .then((data) => setMovieData(data.results))
-        .catch((error) => console.error("Error fetching data:", error));
-    }
-  }, [props.tt]);
+  console.log("aaa", topRatedData);
 
   return (
-    <div className="container-fluid bg-black p-3">
+    <div className="container-fluid bg-black p-3 mt-5 pt-5">
       <div className="row">
-        <h1 className="text-white">{genreName}</h1>
+        <h1 className="text-white">Top Rated Movies</h1>
       </div>
       <Carousel className="w-60 ">
-        {movieData.map(
+        {topRatedData.map(
           (movie, index) =>
             // Display 5 movies at a time
             index % 5 === 0 && (
               <Carousel.Item key={index}>
                 <div className="d-flex justify-content-around gap-2">
                   {/* Map through the next 5 movies */}
-                  {movieData.slice(index, index + 5).map((movie) => (
+                  {topRatedData.slice(index, index + 5).map((movie) => (
                     <div key={movie.id} className="movie-item">
                       <img
                         className="d-block w-100"
@@ -71,4 +64,4 @@ const Movies = (props) => {
   );
 };
 
-export default Movies;
+export default Latest;

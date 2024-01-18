@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
-import Home from "../Pages/Home";
-import Poster from "../Pages/Poster";
-import { FaSearch } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
 import { FaBell } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import "react-responsive-modal/styles.css";
+import { CgProfile } from "react-icons/cg";
 import { Modal } from "react-responsive-modal";
+import { Link, Route, Routes } from "react-router-dom";
 
-function Header() {
+const Header = ({ activePage }) => {
   const [open, setOpen] = useState(false);
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
+
+  const [inputVisible, setInputVisible] = useState(false);
+  const toggleInput = () => {
+    setInputVisible(!inputVisible);
+  };
+
   return (
     <>
       <header>
@@ -22,26 +26,35 @@ function Header() {
           </Modal>
         </div>
         <div className="fixed-top container-fluid mx-auto py-3  bg-black">
-          <div className="row">
+          <div className="row ">
             <div className="col-md-2 mt-2">
-              <img
-                style={{ width: "100px" }}
-                className=""
-                src="https://www.edigitalagency.com.au/wp-content/uploads/netflix-logo-png-large.png"
-                alt=""
-              />
+              <Link to="/">
+                <img
+                  style={{ width: "100px" }}
+                  className=""
+                  src="https://www.edigitalagency.com.au/wp-content/uploads/netflix-logo-png-large.png"
+                  alt=""
+                />
+              </Link>
             </div>
-            <div className="col-md-8 d-none d-lg-block mt-2">
-              <ul className="d-flex gap-5 text-white list-unstyled ">
+            <div className="col-md-6 d-none d-lg-block mt-2">
+              <ul className="d-flex gap-4 text-white list-unstyled nav">
                 <li className="">
-                  <Link to="/" className="text-decoration-none text-white">
+                  <Link
+                    to="/"
+                    className={`text-decoration-none text-white ${
+                      activePage === "home" ? "active" : ""
+                    }`}
+                  >
                     Home
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/tvshow"
-                    className="text-decoration-none text-white"
+                    className={`text-decoration-none text-white ${
+                      activePage === "tvshow" ? "active" : ""
+                    }`}
                   >
                     Tv Shows
                   </Link>
@@ -52,7 +65,12 @@ function Header() {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/" className="text-decoration-none text-white">
+                  <Link
+                    to="/latest"
+                    className={`text-decoration-none text-white ${
+                      activePage === "latest" ? "active" : ""
+                    }`}
+                  >
                     Latest
                   </Link>
                 </li>
@@ -68,9 +86,33 @@ function Header() {
                 </li>
               </ul>
             </div>
-            <div className="col-md-2 text-white d-flex list-unstyled justify-content-between mt-2">
+            <div className="col-md-2 d-flex justify-content-center px-0">
+              {inputVisible && (
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="d-inline col-md-6 mt-2 text-center border rounded"
+                  style={{
+                    width: "150px",
+                    height: "30px",
+                    transition: "all 0.8s ease-in",
+                  }}
+                />
+              )}
+            </div>
+            <div className="col-md-2 text-white d-flex list-unstyled justify-content-between mt-2 nav">
               <li>
-                <FaSearch style={{ fontSize: "25px", marginBottom: "10px" }} />
+                {/* {inputVisible && (
+                  <input type="text" className="d-realtive col-md-6" />
+                )} */}
+                <button
+                  className="text-white bg-black border-0"
+                  onClick={toggleInput}
+                >
+                  <FaSearch
+                    style={{ fontSize: "25px", marginBottom: "10px" }}
+                  />
+                </button>
               </li>
               <li className="fw-semibold mb-3">Kids</li>
               <li>
@@ -84,6 +126,7 @@ function Header() {
                   }}
                 >
                   <CgProfile
+                    className={`${activePage === "profile" ? "active" : ""} `}
                     style={{ fontSize: "25px", marginBottom: "10px" }}
                   />
                 </Link>
@@ -91,6 +134,7 @@ function Header() {
 
                 {/* </button> */}
               </li>
+
               {/* <li>
                 {" "}
                 <button onClick={onOpenModal} className="text-primary">
@@ -102,12 +146,9 @@ function Header() {
         </div>
       </header>
 
-      <Poster />
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      {/* <Poster /> */}
     </>
   );
-}
+};
 
 export default Header;
